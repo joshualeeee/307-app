@@ -25,10 +25,6 @@ import Form from "./form";
         setCharacters(updated);
     }
 
-    function updateList(person) {
-      setCharacters([...characters, person]);
-    }
-
     function postUser(person) {
       const promise = fetch("Http://localhost:8000/users", {
         method: "POST",
@@ -43,7 +39,16 @@ import Form from "./form";
 
     function updateList(person) { 
       postUser(person)
-        .then(() => setCharacters([...characters, person]))
+        .then(response => {
+          if (response.status === 201) {
+            response.json().then(insertedUser => {
+              // Update state with the inserted user object
+              setCharacters([...characters, insertedUser]);
+            });
+          } else {
+            console.log("Failed to create user. Status code: ", response.status);
+          }
+        })
         .catch((error) => {
           console.log(error);
         })

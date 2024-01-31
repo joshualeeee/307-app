@@ -50,6 +50,8 @@ app.get("/users", (req, res) => {
   });
 
 const addUser = (user) => {
+    const randomId = Math.random()
+    user.id = randomId;
     users["users_list"].push(user);
     return user;
   };
@@ -57,7 +59,7 @@ const addUser = (user) => {
   app.post("/users", (req, res) => {
     const userToAdd = req.body;
     addUser(userToAdd);
-    res.send(userToAdd);
+    res.status(201).send(userToAdd);
   });
 
 app.listen(port, () => {
