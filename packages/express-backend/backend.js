@@ -32,12 +32,12 @@ app.delete("/users/:id", (req, res) => {
     if (result === false) {
         res.status(404).send("Resource not found.");
     } else {
-        res.send();
+        res.status(204).send();
     }
   });
 
   const deleteUser = (id) => {
-    const index = users["users_list"].findIndex((user) => user["id"] === id);
+    const index = users["users_list"].findIndex((user) => user["id"] == id);
     if (index !== -1) {
         users["users_list"].splice(index, 1);
         return true; // Indicate successful deletion
@@ -50,7 +50,7 @@ app.get("/users", (req, res) => {
   });
 
 const addUser = (user) => {
-    const randomId = Math.random()
+    const randomId = Math.random().toString()
     user.id = randomId;
     users["users_list"].push(user);
     return user;

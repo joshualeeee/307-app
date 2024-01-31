@@ -18,11 +18,26 @@ import Form from "./form";
         .catch((error) => { console.log(error); });
     }, [] );
 
+
     function removeOneCharacter(index) {
-        const updated = characters.filter((character, i) => {
-            return i !== index;
+        const characterToRemove = characters[index];
+        const characterId = characterToRemove.id; 
+        
+        fetch(`http://localhost:8000/users/${characterId}`, {
+          method: 'DELETE'
+        })
+        .then(response => {
+          if (response.status === 204) {
+            const updated = characters.filter((character, i) => i !== index);
+            console.log("here", updated)
+            setCharacters(updated);
+          } else {
+            console.error('Failed to delete character:', response.statusText);
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
         });
-        setCharacters(updated);
     }
 
     function postUser(person) {
