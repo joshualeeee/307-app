@@ -21,7 +21,7 @@ import Form from "./form";
 
     function removeOneCharacter(index) {
         const characterToRemove = characters[index];
-        const characterId = characterToRemove.id; 
+        const characterId = characterToRemove._id; 
         
         fetch(`http://localhost:8000/users/${characterId}`, {
           method: 'DELETE'
